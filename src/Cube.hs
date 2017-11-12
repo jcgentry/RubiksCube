@@ -1,4 +1,4 @@
-module Cube(Cube(..), Color(..), Face(..), startingCube, solved, fTurn) where
+module Cube(Cube(..), Color(..), Face(..), startingCube, solved, frontTurn) where
 
 import qualified System.Console.ANSI as ANSI
 import Prelude hiding (print)
@@ -62,19 +62,16 @@ row face 1 = [xl face, x face, xr face]
 row face 2 = [xld face, xd face, xrd face]
 
 data Cube = Cube {
-  f :: Face,
-  l :: Face,
-  u :: Face,
-  d :: Face,
-  r :: Face,
-  b :: Face
+                up :: Face,
+  left :: Face, front :: Face,  right :: Face,  back :: Face,
+                down :: Face
 } deriving (Show, Eq)
 
 emptyRow :: IO ()
 emptyRow = putStr "      "
 
 instance Print Cube where
-  print (Cube f l u d r b) = do
+  print (Cube u l f r b d) = do
     emptyRow
     println $ row u 0
 
@@ -115,39 +112,42 @@ faceAllSameColor :: Face -> Bool
 faceAllSameColor (Face c1 c2 c3 c4 c5 c6 c7 c8 c9) = all (c1 ==) [c2, c3, c4, c5, c6, c7, c8, c9]
 
 startingCube = Cube {
-  f = faceWithOneColor Orange,
-  l = faceWithOneColor Green,
-  u = faceWithOneColor Yellow,
-  d = faceWithOneColor White,
-  r = faceWithOneColor Blue,
-  b = faceWithOneColor Red
+                                  up = faceWithOneColor Yellow,
+  left = faceWithOneColor Green,  front = faceWithOneColor Orange,  right = faceWithOneColor Blue, back = faceWithOneColor Red,
+                                  down = faceWithOneColor White
 }
 
 solved :: Cube -> Bool
-solved (Cube f l u d r b) = faceAllSameColor f &&
+solved (Cube u l f r b d) = faceAllSameColor f &&
                 faceAllSameColor l &&
                 faceAllSameColor u &&
                 faceAllSameColor d &&
                 faceAllSameColor r &&
                 faceAllSameColor b
 
+--clockwiseTurn :: Cube -> Face -> Cube
 
-fTurn :: Turn
-fTurn cube = cube {
-  f = (f cube) {  xlu = xld (f cube), xu  = xl (f cube),  xru = xlu (f cube),
-              xl  = xd  (f cube), x   = x (f cube),   xr  = xu (f cube),
-              xld = xrd (f cube), xd  = xr (f cube),  xrd = xru (f cube)  },
-  l = (l cube) {                                          xru = xlu (d cube),
-                                                          xr  = xu  (d cube),
-                                                          xrd = xru (d cube)  },
-  u = (u cube) {
 
-              xld = xrd (l cube), xd  = xr (l cube),  xrd = xlu (l cube)  },
-  d = (d cube) {  xlu = xlu (r cube), xu  = xr (r cube),  xru = xru (r cube)
+frontTurn :: Turn
+frontTurn cube = cube {
+  up    = (up cube)     {
 
-                                                                          },
-  r = (r cube) {  xlu = xld (u cube),
-              xl  = xd  (u cube),
-              xld = xrd (u cube)                                          },
-  b = b cube
+                          xld = xrd (left cube), xd   = xr (left cube),   xrd = xlu (left cube)
+          },
+  left  = (left cube)   {                                                 xru = xlu (down cube),
+                                                                          xr  = xu  (down cube),
+                                                                          xrd = xru (down cube)
+          },
+  front = (front cube)  { xlu = xld (front cube), xu  = xl (front cube),  xru = xlu (front cube),
+                          xl  = xd  (front cube), x   = x (front cube),   xr  = xu (front cube),
+                          xld = xrd (front cube), xd  = xr (front cube),  xrd = xru (front cube)
+          },
+  right = (right cube)  { xlu = xld (up cube),
+                          xl  = xd  (up cube),
+                          xld = xrd (up cube)
+          },
+  down  = (down cube)   { xlu = xlu (right cube), xu  = xr (right cube),  xru = xru (right cube)
+
+          },
+  back = back cube
 }
