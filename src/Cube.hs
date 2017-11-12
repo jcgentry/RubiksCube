@@ -146,8 +146,8 @@ frontTurn cube = cube {
                           xl  = xd  (up cube),
                           xld = xrd (up cube)
           },
+  back = back cube,
   down  = (down cube)   { xlu = xlu (right cube), xu  = xr (right cube),  xru = xru (right cube)
 
-          },
-  back = back cube
+          }
 }
