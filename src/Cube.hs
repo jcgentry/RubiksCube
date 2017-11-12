@@ -1,9 +1,11 @@
-module Cube(Cube(..), Color(..), Face(..), startingCube, solved) where
+module Cube(Cube(..), Color(..), Face(..), startingCube, solved, fTurn) where
 
 import qualified System.Console.ANSI as ANSI
 import Prelude hiding (print)
 
 square = "*"
+
+type Turn = Cube -> Cube
 
 class (Show a) => Print a where
   print :: a -> IO ()
@@ -15,34 +17,17 @@ class (Show a) => Print a where
 
 data Color = Red | Orange | Yellow | Green | Blue | White deriving (Eq, Show)
 
+ansiColor :: Color -> ANSI.Color
+ansiColor Red = ANSI.Red
+ansiColor Orange = ANSI.Magenta
+ansiColor Yellow = ANSI.Yellow
+ansiColor Green = ANSI.Green
+ansiColor Blue = ANSI.Blue
+ansiColor White = ANSI.Black
+
 instance Print Color where
-  print Red    = do
-                   ANSI.setSGR [ANSI.SetColor ANSI.Foreground ANSI.Vivid ANSI.Red]
-                   putStr square
-                   putStr " "
-                   ANSI.setSGR [ANSI.Reset]
-  print Orange = do
-                   ANSI.setSGR [ANSI.SetColor ANSI.Foreground ANSI.Vivid ANSI.Magenta]
-                   putStr square
-                   putStr " "
-                   ANSI.setSGR [ANSI.Reset]
-  print Yellow = do
-                   ANSI.setSGR [ANSI.SetColor ANSI.Foreground ANSI.Vivid ANSI.Yellow]
-                   putStr square
-                   putStr " "
-                   ANSI.setSGR [ANSI.Reset]
-  print Green  = do
-                   ANSI.setSGR [ANSI.SetColor ANSI.Foreground ANSI.Vivid ANSI.Green]
-                   putStr square
-                   putStr " "
-                   ANSI.setSGR [ANSI.Reset]
-  print Blue   = do
-                   ANSI.setSGR [ANSI.SetColor ANSI.Foreground ANSI.Vivid ANSI.Blue]
-                   putStr square
-                   putStr " "
-                   ANSI.setSGR [ANSI.Reset]
-  print White  = do
-                   ANSI.setSGR [ANSI.SetColor ANSI.Foreground ANSI.Vivid ANSI.Black]
+  print color = do
+                   ANSI.setSGR [ANSI.SetColor ANSI.Foreground ANSI.Vivid (ansiColor color)]
                    putStr square
                    putStr " "
                    ANSI.setSGR [ANSI.Reset]
@@ -54,15 +39,9 @@ instance Print x => Print [x] where
   print [] = return ()
 
 data Face = Face {
-  xlu :: Color,
-  xu  :: Color,
-  xru :: Color,
-  xl  :: Color,
-  x   :: Color,
-  xr  :: Color,
-  xrd :: Color,
-  xd  :: Color,
-  xld :: Color
+  xlu :: Color, xu  :: Color, xru :: Color,
+  xl  :: Color, x   :: Color, xr  :: Color,
+  xld :: Color, xd  :: Color, xrd :: Color
 } deriving (Show, Eq)
 
 instance Print Face where
@@ -152,5 +131,23 @@ solved (Cube f l u d r b) = faceAllSameColor f &&
                 faceAllSameColor r &&
                 faceAllSameColor b
 
---printCube :: Cube -> IO ()
---printCube =
+
+fTurn :: Turn
+fTurn cube = cube {
+  f = (f cube) {  xlu = xld (f cube), xu  = xl (f cube),  xru = xlu (f cube),
+              xl  = xd  (f cube), x   = x (f cube),   xr  = xu (f cube),
+              xld = xrd (f cube), xd  = xr (f cube),  xrd = xru (f cube)  },
+  l = (l cube) {                                          xru = xlu (d cube),
+                                                          xr  = xu  (d cube),
+                                                          xrd = xru (d cube)  },
+  u = (u cube) {
+
+              xld = xrd (l cube), xd  = xr (l cube),  xrd = xlu (l cube)  },
+  d = (d cube) {  xlu = xlu (r cube), xu  = xr (r cube),  xru = xru (r cube)
+
+                                                                          },
+  r = (r cube) {  xlu = xld (u cube),
+              xl  = xd  (u cube),
+              xld = xrd (u cube)                                          },
+  b = b cube
+}
