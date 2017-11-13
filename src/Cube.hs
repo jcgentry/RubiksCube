@@ -53,7 +53,7 @@ emptyRow :: IO ()
 emptyRow = putStr "      "
 
 {--
-  "Western" color schema as described here: https://ruwix.com/the-rubiks-cube/japanese-western-color-schemes/.
+  "Western" color scheme as described here: https://ruwix.com/the-rubiks-cube/japanese-western-color-schemes/.
  -}
 startingCube = Cube {
                                     up    = faceWithOneColor White,

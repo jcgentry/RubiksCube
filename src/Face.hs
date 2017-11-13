@@ -4,6 +4,10 @@ import Color
 import Prelude hiding (print)
 import Print
 
+{--
+  There *is* more-standard notation for the positions on the face, but I find `p1`, `p2`, `p3`, _etc._
+  easier to deal with
+--}
 data Face = Face {
   p1 :: Color, p2 :: Color, p3 :: Color,
   p4 :: Color, p5 :: Color, p6 :: Color,
