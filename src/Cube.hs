@@ -1,10 +1,14 @@
-module Cube(Cube(..), Color(..), Face(..), startingCube, solved, frontTurn) where
+module Cube(Cube(..), Color(..), Face(..), startingCube, solved, frontTurn, rightTurn) where
 
 import qualified System.Console.ANSI as ANSI
 import Face
 import Prelude hiding (print)
 import Color
 import Print
+
+{--
+  This is a simplistic representation for now, where each turn type is written out explicitly.
+-}
 
 type Turn = Cube -> Cube
 
@@ -71,24 +75,60 @@ solved (Cube u l f r b d) = faceAllSameColor f &&
 
 frontTurn :: Turn
 frontTurn cube = cube {
-  up    = (up cube)     {
+  up    = (up cube) {
 
-                          p7 = p9 (left cube), p8   = p6 (left cube),   p9 = p3 (left cube)
+
+            p7 = p9 (left cube),  p8 = p6 (left cube),  p9 = p3 (left cube)
           },
-  left  = (left cube)   {                                                 p3 = p1 (down cube),
-                                                                          p6  = p2  (down cube),
-                                                                          p9 = p3 (down cube)
+  left  = (left cube) {
+                                                        p3 = p1 (down cube),
+                                                        p6 = p2 (down cube),
+                                                        p9 = p3 (down cube)
           },
-  front = (front cube)  { p1 = p7 (front cube), p2  = p4 (front cube),  p3 = p1 (front cube),
-                          p4  = p8  (front cube), p5   = p5 (front cube),   p6  = p2 (front cube),
-                          p7 = p9 (front cube), p8  = p6 (front cube),  p9 = p3 (front cube)
+  front = (front cube)  {
+            p1 = p7 (front cube), p2 = p4 (front cube), p3 = p1 (front cube),
+            p4 = p8 (front cube), p5 = p5 (front cube), p6 = p2 (front cube),
+            p7 = p9 (front cube), p8 = p6 (front cube), p9 = p3 (front cube)
           },
-  right = (right cube)  { p1 = p7 (up cube),
-                          p4  = p8  (up cube),
-                          p7 = p9 (up cube)
+  right = (right cube) {
+            p1 = p7 (up cube),
+            p4 = p8 (up cube),
+            p7 = p9 (up cube)
           },
   back = back cube,
-  down  = (down cube)   { p1 = p7 (right cube), p2  = p4 (right cube),  p3 = p1 (right cube)
+  down  = (down cube) {
+            p1 = p7 (right cube), p2 = p4 (right cube), p3 = p1 (right cube)
 
+
+          }
+}
+
+rightTurn :: Turn
+rightTurn cube = cube {
+  up    = (up cube) {
+                                                        p3 = p3 (front cube),
+                                                        p6 = p6 (front cube),
+                                                        p9 = p9 (front cube)
+          },
+  left  = left cube,
+  front = (front cube)  {
+                                                        p3 = p3 (down cube),
+                                                        p6 = p6 (down cube),
+                                                        p9 = p9 (down cube)
+          },
+  right = (right cube) {
+            p1 = p7 (right cube), p2 = p4 (right cube), p3 = p1 (right cube),
+            p4 = p8 (right cube), p5 = p5 (right cube), p6 = p2 (right cube),
+            p7 = p9 (right cube), p8 = p6 (right cube), p9 = p3 (right cube)
+          },
+  back  = (back cube) {
+            p1 = p9 (up cube),
+            p4 = p6 (up cube),
+            p7 = p3 (up cube)
+          },
+  down  = (down cube) {
+                                                        p3 = p7 (back cube),
+                                                        p6 = p4 (back cube),
+                                                        p9 = p1 (back cube)
           }
 }

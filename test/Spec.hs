@@ -75,6 +75,8 @@ main = hspec $ do
     it "not solved if turned" $
       solved (frontTurn startingCube) `shouldBe` False
 
+    it "4 front turns solves it" $
+      solved ((frontTurn . frontTurn . frontTurn . frontTurn) startingCube) `shouldBe` True
 
     it "two front turns" $
       (frontTurn . frontTurn) startingCube `shouldBe`
@@ -104,5 +106,44 @@ main = hspec $ do
                     Blue Blue Blue
                     Blue Blue Blue
         }
+
+    it "right turn" $
+      rightTurn startingCube `shouldBe`
+        Cube {
+          front =
+            Face
+              Green Green Yellow
+              Green Green Yellow
+              Green Green Yellow,
+          left =
+            Face
+              Orange Orange Orange
+              Orange Orange Orange
+              Orange Orange Orange,
+          up =
+            Face
+              White White Green
+              White White Green
+              White White Green,
+          down =
+            Face
+              Yellow Yellow Blue
+              Yellow Yellow Blue
+              Yellow Yellow Blue,
+          right =
+            Face
+              Red Red Red
+              Red Red Red
+              Red Red Red,
+          back =
+            Face
+              White Blue Blue
+              White Blue Blue
+              White Blue Blue
+        }
+
+    it "4 right turns solves it" $
+      solved ((rightTurn . rightTurn . rightTurn . rightTurn) startingCube) `shouldBe` True
+
 
 
