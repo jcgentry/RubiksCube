@@ -1,4 +1,7 @@
-module Cube(Cube(..), Color(..), Face(..), startingCube, solved, frontTurn, rightTurn, upTurn, leftTurn, backTurn) where
+module Cube(
+  Cube(..), Color(..), Face(..), startingCube, solved, frontTurn, rightTurn, upTurn, leftTurn, backTurn, downTurn,
+  frontTurn', rightTurn', upTurn', leftTurn', backTurn', downTurn', frontTurn2, rightTurn2, upTurn2, leftTurn2,
+  backTurn2, downTurn2) where
 
 import qualified System.Console.ANSI as ANSI
 import Face
@@ -222,3 +225,48 @@ backTurn cube = cube {
             p7 = p1 (left cube),  p8 = p4 (left cube),  p9 = p7 (left cube)
   }
 }
+
+downTurn :: Turn
+downTurn cube = cube {
+  up    = up cube,
+  left  = (left cube) {
+
+
+            p7 = p7 (back cube),  p8 = p8 (back cube),  p9 = p9 (back cube)
+  },
+  front = (front cube) {
+
+
+            p7 = p7 (left cube),  p8 = p8 (left cube),  p9 = p9 (left cube)
+  },
+  right = (right cube) {
+
+
+            p7 = p7 (front cube),  p8 = p8 (front cube),  p9 = p9 (front cube)
+  },
+  back  = (back cube) {
+
+
+            p7 = p7 (right cube),  p8 = p8 (right cube),  p9 = p9 (right cube)
+   },
+  down  = (down cube) {
+            p1 = p7 (down cube), p2 = p4 (down cube), p3 = p1 (down cube),
+            p4 = p8 (down cube), p5 = p5 (down cube), p6 = p2 (down cube),
+            p7 = p9 (down cube), p8 = p6 (down cube), p9 = p3 (down cube)
+  }
+}
+
+-- Okay, I've gotten kind of lazy for these...
+frontTurn'  = frontTurn . frontTurn . frontTurn
+rightTurn'  = rightTurn . rightTurn . rightTurn
+upTurn'     = upTurn . upTurn . upTurn
+leftTurn'   = leftTurn . leftTurn . leftTurn
+backTurn'   = backTurn . backTurn . backTurn
+downTurn'   = downTurn . downTurn . downTurn
+
+frontTurn2  = frontTurn . frontTurn
+rightTurn2  = rightTurn . rightTurn
+upTurn2     = upTurn . upTurn
+leftTurn2   = leftTurn . leftTurn
+backTurn2   = backTurn . backTurn
+downTurn2   = downTurn . downTurn
