@@ -9,9 +9,9 @@ import Print
 type Turn = Cube -> Cube
 
 data Cube = Cube {
-                up :: Face,
-  left :: Face, front :: Face,  right :: Face,  back :: Face,
-                down :: Face
+                  up    :: Face,
+  left  :: Face,  front :: Face,  right :: Face,  back  :: Face,
+                  down  :: Face
 } deriving (Show, Eq)
 
 instance Print Cube where
@@ -52,10 +52,13 @@ instance Print Cube where
 emptyRow :: IO ()
 emptyRow = putStr "      "
 
+{--
+  "Western" color schema as described here: https://ruwix.com/the-rubiks-cube/japanese-western-color-schemes/.
+ -}
 startingCube = Cube {
-                                  up = faceWithOneColor Yellow,
-  left = faceWithOneColor Green,  front = faceWithOneColor Orange,  right = faceWithOneColor Blue, back = faceWithOneColor Red,
-                                  down = faceWithOneColor White
+                                    up    = faceWithOneColor White,
+  left  = faceWithOneColor Orange,  front = faceWithOneColor Green, right = faceWithOneColor Red, back  = faceWithOneColor Blue,
+                                    down  = faceWithOneColor Yellow
 }
 
 solved :: Cube -> Bool

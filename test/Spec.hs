@@ -9,34 +9,34 @@ main = hspec $ do
         Cube {
           front =
             Face
-              Orange Orange Orange
-              Orange Orange Orange
-              Orange Orange Orange,
-          left =
-            Face
               Green Green Green
               Green Green Green
               Green Green Green,
-          up =
+          left =
             Face
-              Yellow Yellow Yellow
-              Yellow Yellow Yellow
-              Yellow Yellow Yellow,
-          down =
+              Orange Orange Orange
+              Orange Orange Orange
+              Orange Orange Orange,
+          up =
             Face
               White White White
               White White White
               White White White,
+          down =
+            Face
+              Yellow Yellow Yellow
+              Yellow Yellow Yellow
+              Yellow Yellow Yellow,
           right =
             Face
-              Blue Blue Blue
-              Blue Blue Blue
-              Blue Blue Blue,
+              Red Red Red
+              Red Red Red
+              Red Red Red,
           back =
             Face
-              Red Red Red
-              Red Red Red
-              Red Red Red
+              Blue Blue Blue
+              Blue Blue Blue
+              Blue Blue Blue
         }
     it "new is solved" $
       solved startingCube `shouldBe` True
@@ -45,29 +45,29 @@ main = hspec $ do
       frontTurn startingCube `shouldBe`
         Cube {
           front = Face
-                    Orange Orange Orange
-                    Orange Orange Orange
-                    Orange Orange Orange,
+                    Green Green Green
+                    Green Green Green
+                    Green Green Green,
           left = Face
-                    Green Green White
-                    Green Green White
-                    Green Green White,
+                    Orange Orange Yellow
+                    Orange Orange Yellow
+                    Orange Orange Yellow,
           up = Face
-                    Yellow Yellow Yellow
-                    Yellow Yellow Yellow
-                    Green  Green  Green,
-          down = Face
-                    Blue  Blue  Blue
                     White White White
-                    White White White,
+                    White White White
+                    Orange  Orange  Orange,
+          down = Face
+                    Red    Red    Red
+                    Yellow Yellow Yellow
+                    Yellow Yellow Yellow,
           right = Face
-                    Yellow Blue Blue
-                    Yellow Blue Blue
-                    Yellow Blue Blue,
+                    White Red Red
+                    White Red Red
+                    White Red Red,
           back = Face
-                    Red Red Red
-                    Red Red Red
-                    Red Red Red
+                    Blue Blue Blue
+                    Blue Blue Blue
+                    Blue Blue Blue
         }
     it "not solved if turned" $
       solved (frontTurn startingCube) `shouldBe` False
