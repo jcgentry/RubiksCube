@@ -1,4 +1,4 @@
-module Cube(Cube(..), Color(..), Face(..), startingCube, solved, frontTurn, rightTurn, upTurn, leftTurn) where
+module Cube(Cube(..), Color(..), Face(..), startingCube, solved, frontTurn, rightTurn, upTurn, leftTurn, backTurn) where
 
 import qualified System.Console.ANSI as ANSI
 import Face
@@ -190,5 +190,35 @@ leftTurn cube = cube {
             p1 = p1 (front cube),
             p4 = p4 (front cube),
             p7 = p7 (front cube)
+  }
+}
+
+backTurn :: Turn
+backTurn cube = cube {
+  up    = (up cube) {
+            p1 = p3 (right cube), p2 = p6 (right cube), p3 = p9 (right cube)
+
+
+  },
+  left  = (left cube) {
+            p1 = p3 (up cube),
+            p4 = p2 (up cube),
+            p7 = p1 (up cube)
+  },
+  front = front cube,
+  right = (right cube) {
+                                                        p3 = p9 (down cube),
+                                                        p6 = p8 (down cube),
+                                                        p9 = p7 (down cube)
+  },
+  back  = (back cube) {
+            p1 = p7 (back cube), p2 = p4 (back cube), p3 = p1 (back cube),
+            p4 = p8 (back cube), p5 = p5 (back cube), p6 = p2 (back cube),
+            p7 = p9 (back cube), p8 = p6 (back cube), p9 = p3 (back cube)
+   },
+  down  = (down cube) {
+
+
+            p7 = p1 (left cube),  p8 = p4 (left cube),  p9 = p7 (left cube)
   }
 }

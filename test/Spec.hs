@@ -221,6 +221,45 @@ main = hspec $ do
     it "4 left turns solves it" $
       solved ((leftTurn . leftTurn . leftTurn . leftTurn) startingCube) `shouldBe` True
 
+    it "back turn" $
+      backTurn startingCube `shouldBe`
+        Cube {
+          front =
+            Face
+              Green   Green   Green
+              Green   Green   Green
+              Green   Green   Green,
+          left =
+            Face
+              White   Orange  Orange
+              White   Orange  Orange
+              White   Orange  Orange,
+          up =
+            Face
+              Red     Red     Red
+              White   White   White
+              White   White   White,
+          down =
+            Face
+              Yellow  Yellow  Yellow
+              Yellow  Yellow  Yellow
+              Orange  Orange  Orange,
+          right =
+            Face
+              Red     Red     Yellow
+              Red     Red     Yellow
+              Red     Red     Yellow,
+          back =
+            Face
+              Blue    Blue    Blue
+              Blue    Blue    Blue
+              Blue    Blue    Blue
+        }
+
+    it "4 back turns solves it" $
+      solved ((backTurn . backTurn . backTurn . backTurn) startingCube) `shouldBe` True
+
+
 
 
 
