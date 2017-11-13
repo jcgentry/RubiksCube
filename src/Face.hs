@@ -5,27 +5,27 @@ import Prelude hiding (print)
 import Print
 
 data Face = Face {
-  xlu :: Color, xu  :: Color, xru :: Color,
-  xl  :: Color, x   :: Color, xr  :: Color,
-  xld :: Color, xd  :: Color, xrd :: Color
+  p1 :: Color, p2 :: Color, p3 :: Color,
+  p4 :: Color, p5 :: Color, p6 :: Color,
+  p7 :: Color, p8 :: Color, p9 :: Color
 } deriving (Show, Eq)
 
 instance Print Face where
   print f = do
-              print (xlu f)
-              print (xu f)
-              println (xru f)
-              print (xl f)
-              print (x f)
-              println (xr f)
-              print (xrd f)
-              print (xd f)
-              println (xld f)
+              print (p1 f)
+              print (p2 f)
+              println (p3 f)
+              print (p4 f)
+              print (p5 f)
+              println (p6 f)
+              print (p9 f)
+              print (p8 f)
+              println (p7 f)
 
 row :: Face -> Int -> [Color]
-row face 0 = [xlu face, xu face, xru face]
-row face 1 = [xl face, x face, xr face]
-row face 2 = [xld face, xd face, xrd face]
+row face 0 = [p1 face, p2 face, p3 face]
+row face 1 = [p4 face, p5 face, p6 face]
+row face 2 = [p7 face, p8 face, p9 face]
 
 faceWithOneColor :: Color -> Face
 faceWithOneColor color = Face color color color color color color color color color

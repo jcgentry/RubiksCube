@@ -73,22 +73,22 @@ frontTurn :: Turn
 frontTurn cube = cube {
   up    = (up cube)     {
 
-                          xld = xrd (left cube), xd   = xr (left cube),   xrd = xlu (left cube)
+                          p7 = p9 (left cube), p8   = p6 (left cube),   p9 = p3 (left cube)
           },
-  left  = (left cube)   {                                                 xru = xlu (down cube),
-                                                                          xr  = xu  (down cube),
-                                                                          xrd = xru (down cube)
+  left  = (left cube)   {                                                 p3 = p1 (down cube),
+                                                                          p6  = p2  (down cube),
+                                                                          p9 = p3 (down cube)
           },
-  front = (front cube)  { xlu = xld (front cube), xu  = xl (front cube),  xru = xlu (front cube),
-                          xl  = xd  (front cube), x   = x (front cube),   xr  = xu (front cube),
-                          xld = xrd (front cube), xd  = xr (front cube),  xrd = xru (front cube)
+  front = (front cube)  { p1 = p7 (front cube), p2  = p4 (front cube),  p3 = p1 (front cube),
+                          p4  = p8  (front cube), p5   = p5 (front cube),   p6  = p2 (front cube),
+                          p7 = p9 (front cube), p8  = p6 (front cube),  p9 = p3 (front cube)
           },
-  right = (right cube)  { xlu = xld (up cube),
-                          xl  = xd  (up cube),
-                          xld = xrd (up cube)
+  right = (right cube)  { p1 = p7 (up cube),
+                          p4  = p8  (up cube),
+                          p7 = p9 (up cube)
           },
   back = back cube,
-  down  = (down cube)   { xlu = xlu (right cube), xu  = xr (right cube),  xru = xru (right cube)
+  down  = (down cube)   { p1 = p7 (right cube), p2  = p4 (right cube),  p3 = p1 (right cube)
 
           }
 }
