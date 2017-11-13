@@ -72,4 +72,6 @@ main = hspec $ do
     it "not solved if turned" $
       solved (frontTurn startingCube) `shouldBe` False
 
+   -- TODO: Two turns does not work right!
+
 

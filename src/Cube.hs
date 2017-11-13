@@ -61,6 +61,9 @@ row face 0 = [xlu face, xu face, xru face]
 row face 1 = [xl face, x face, xr face]
 row face 2 = [xld face, xd face, xrd face]
 
+type Side = Int
+
+
 data Cube = Cube {
                 up :: Face,
   left :: Face, front :: Face,  right :: Face,  back :: Face,
