@@ -1,5 +1,5 @@
 module Cube(
-  Cube(..), Color(..), Face(..), startingCube, solved, frontTurn, rightTurn, upTurn, leftTurn, backTurn, downTurn,
+  Cube(..), Color(..), Face(..), Turn, startingCube, solved, frontTurn, rightTurn, upTurn, leftTurn, backTurn, downTurn,
   frontTurn', rightTurn', upTurn', leftTurn', backTurn', downTurn', frontTurn2, rightTurn2, upTurn2, leftTurn2,
   backTurn2, downTurn2) where
 
