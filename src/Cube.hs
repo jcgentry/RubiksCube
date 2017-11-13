@@ -1,4 +1,4 @@
-module Cube(Cube(..), Color(..), Face(..), startingCube, solved, frontTurn, rightTurn) where
+module Cube(Cube(..), Color(..), Face(..), startingCube, solved, frontTurn, rightTurn, upTurn, leftTurn) where
 
 import qualified System.Console.ANSI as ANSI
 import Face
@@ -131,4 +131,64 @@ rightTurn cube = cube {
                                                         p6 = p4 (back cube),
                                                         p9 = p1 (back cube)
           }
+}
+
+upTurn :: Turn
+upTurn cube = cube {
+  up    = (up cube) {
+              p1 = p7 (up cube), p2 = p4 (up cube), p3 = p1 (up cube),
+              p4 = p8 (up cube), p5 = p5 (up cube), p6 = p2 (up cube),
+              p7 = p9 (up cube), p8 = p6 (up cube), p9 = p3 (up cube)
+  },
+  left  = (left cube) {
+              p1 = p1 (front cube), p2 = p2 (front cube), p3 = p2 (front cube)
+
+
+  },
+  front = (front cube)  {
+              p1 = p1 (right cube), p2 = p2 (right cube), p3 = p2 (right cube)
+
+
+  },
+  right = (right cube) {
+              p1 = p1 (back cube), p2 = p2 (back cube), p3 = p2 (back cube)
+
+
+  },
+  back  = (back cube) {
+              p1 = p1 (left cube), p2 = p2 (left cube), p3 = p2 (left cube)
+
+
+  },
+  down  = down cube
+}
+
+leftTurn :: Turn
+leftTurn cube = cube {
+  up    = (up cube) {
+            p1 = p9 (back cube),
+            p4 = p6 (back cube),
+            p7 = p3 (back cube)
+  },
+  left  = (left cube) {
+            p1 = p7 (left cube), p2 = p4 (left cube), p3 = p1 (left cube),
+            p4 = p8 (left cube), p5 = p5 (left cube), p6 = p2 (left cube),
+            p7 = p9 (left cube), p8 = p6 (left cube), p9 = p3 (left cube)
+  },
+  front = (front cube)  {
+            p1 = p1 (up cube),
+            p4 = p4 (up cube),
+            p7 = p7 (up cube)
+  },
+  right = right cube,
+  back  = (back cube) {
+                                                      p3 = p7 (down cube),
+                                                      p6 = p4 (down cube),
+                                                      p9 = p1 (down cube)
+  },
+  down  = (down cube) {
+            p1 = p1 (front cube),
+            p4 = p4 (front cube),
+            p7 = p7 (front cube)
+  }
 }

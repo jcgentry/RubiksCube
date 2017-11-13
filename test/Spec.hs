@@ -9,34 +9,34 @@ main = hspec $ do
         Cube {
           front =
             Face
-              Green Green Green
-              Green Green Green
-              Green Green Green,
+              Green   Green   Green
+              Green   Green   Green
+              Green   Green   Green,
           left =
             Face
-              Orange Orange Orange
-              Orange Orange Orange
-              Orange Orange Orange,
+              Orange  Orange  Orange
+              Orange  Orange  Orange
+              Orange  Orange  Orange,
           up =
             Face
-              White White White
-              White White White
-              White White White,
+              White   White   White
+              White   White   White
+              White   White   White,
           down =
             Face
-              Yellow Yellow Yellow
-              Yellow Yellow Yellow
-              Yellow Yellow Yellow,
+              Yellow  Yellow  Yellow
+              Yellow  Yellow  Yellow
+              Yellow  Yellow  Yellow,
           right =
             Face
-              Red Red Red
-              Red Red Red
-              Red Red Red,
+              Red     Red     Red
+              Red     Red     Red
+              Red     Red     Red,
           back =
             Face
-              Blue Blue Blue
-              Blue Blue Blue
-              Blue Blue Blue
+              Blue    Blue    Blue
+              Blue    Blue    Blue
+              Blue    Blue    Blue
         }
 
     it "new is solved" $
@@ -144,6 +144,83 @@ main = hspec $ do
 
     it "4 right turns solves it" $
       solved ((rightTurn . rightTurn . rightTurn . rightTurn) startingCube) `shouldBe` True
+
+    it "up turn" $
+      upTurn startingCube `shouldBe`
+        Cube {
+          front =
+            Face
+              Red   Red   Red
+              Green Green Green
+              Green Green Green,
+          left =
+            Face
+              Green   Green   Green
+              Orange  Orange  Orange
+              Orange  Orange  Orange,
+          up =
+            Face
+              White White White
+              White White White
+              White White White,
+          down =
+            Face
+              Yellow Yellow Yellow
+              Yellow Yellow Yellow
+              Yellow Yellow Yellow,
+          right =
+            Face
+              Blue    Blue    Blue
+              Red     Red     Red
+              Red     Red     Red,
+          back =
+            Face
+              Orange  Orange  Orange
+              Blue    Blue    Blue
+              Blue    Blue    Blue
+        }
+
+    it "4 up turns solves it" $
+      solved ((upTurn . upTurn . upTurn . upTurn) startingCube) `shouldBe` True
+
+    it "left turn" $
+      leftTurn startingCube `shouldBe`
+        Cube {
+          front =
+            Face
+              White   Green   Green
+              White   Green   Green
+              White   Green   Green,
+          left =
+            Face
+              Orange  Orange  Orange
+              Orange  Orange  Orange
+              Orange  Orange  Orange,
+          up =
+            Face
+              Blue    White   White
+              Blue    White   White
+              Blue    White   White,
+          down =
+            Face
+              Green   Yellow  Yellow
+              Green   Yellow  Yellow
+              Green   Yellow  Yellow,
+          right =
+            Face
+              Red     Red     Red
+              Red     Red     Red
+              Red     Red     Red,
+          back =
+            Face
+              Blue    Blue    Yellow
+              Blue    Blue    Yellow
+              Blue    Blue    Yellow
+        }
+
+    it "4 left turns solves it" $
+      solved ((leftTurn . leftTurn . leftTurn . leftTurn) startingCube) `shouldBe` True
+
 
 
 
