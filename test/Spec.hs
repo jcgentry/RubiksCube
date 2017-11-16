@@ -1,5 +1,6 @@
 import Test.Hspec
 import Cube
+import Pattern
 
 main :: IO ()
 main = hspec $ do
@@ -296,6 +297,10 @@ main = hspec $ do
 
     it "4 down turns solves it" $
       solved ((downTurn . downTurn . downTurn . downTurn) startingCube) `shouldBe` True
+
+  describe "patterns" $
+    it "checkerboard" $
+      ((apply checkerboard) . (apply checkerboard)) startingCube `shouldBe` startingCube
 
 
 
