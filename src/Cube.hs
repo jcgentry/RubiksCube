@@ -144,22 +144,22 @@ upTurn cube = cube {
               p7 = p9 (up cube), p8 = p6 (up cube), p9 = p3 (up cube)
   },
   left  = (left cube) {
-              p1 = p1 (front cube), p2 = p2 (front cube), p3 = p2 (front cube)
+              p1 = p1 (front cube), p2 = p2 (front cube), p3 = p3 (front cube)
 
 
   },
   front = (front cube)  {
-              p1 = p1 (right cube), p2 = p2 (right cube), p3 = p2 (right cube)
+              p1 = p1 (right cube), p2 = p2 (right cube), p3 = p3 (right cube)
 
 
   },
   right = (right cube) {
-              p1 = p1 (back cube), p2 = p2 (back cube), p3 = p2 (back cube)
+              p1 = p1 (back cube), p2 = p2 (back cube), p3 = p3 (back cube)
 
 
   },
   back  = (back cube) {
-              p1 = p1 (left cube), p2 = p2 (left cube), p3 = p2 (left cube)
+              p1 = p1 (left cube), p2 = p2 (left cube), p3 = p3 (left cube)
 
 
   },
