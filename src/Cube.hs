@@ -1,11 +1,10 @@
 module Cube(
   Cube(..), Color(..), Face(..), Turn, startingCube, solved, frontTurn, rightTurn, upTurn, leftTurn, backTurn, downTurn,
   frontTurn', rightTurn', upTurn', leftTurn', backTurn', downTurn', frontTurn2, rightTurn2, upTurn2, leftTurn2,
-  backTurn2, downTurn2) where
+  backTurn2, downTurn2, turns) where
 
 import qualified System.Console.ANSI as ANSI
 import Face
-import Prelude hiding (print)
 import Color
 import Print
 
@@ -270,3 +269,7 @@ upTurn2     = upTurn . upTurn
 leftTurn2   = leftTurn . leftTurn
 backTurn2   = backTurn . backTurn
 downTurn2   = downTurn . downTurn
+
+turns :: [Turn]
+turns = [frontTurn, rightTurn, upTurn, leftTurn, backTurn, downTurn, frontTurn', rightTurn', upTurn', leftTurn',
+          backTurn', downTurn', frontTurn2, rightTurn2, upTurn2, leftTurn2, backTurn2, downTurn2]

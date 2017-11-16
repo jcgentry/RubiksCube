@@ -300,7 +300,7 @@ main = hspec $ do
 
   describe "patterns" $
     it "checkerboard" $
-      ((apply checkerboard) . (apply checkerboard)) startingCube `shouldBe` startingCube
+      (apply checkerboard . apply checkerboard) startingCube `shouldBe` startingCube
 
 
 
