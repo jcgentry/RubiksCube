@@ -1,6 +1,6 @@
-module Turn(Turn, frontTurn, rightTurn, upTurn, leftTurn, backTurn, downTurn,
-                    frontTurn', rightTurn', upTurn', leftTurn', backTurn', downTurn', frontTurn2, rightTurn2, upTurn2, leftTurn2,
-                    backTurn2, downTurn2, turns) where
+module Turn(Turn, f, r, u, l, b, d,
+                    f', r', u', l', b', d', f2, r2, u2, l2,
+                    b2, d2, turns) where
 
 import Cube
 
@@ -10,8 +10,8 @@ import Cube
 
 type Turn = Cube -> Cube
 
-frontTurn :: Turn
-frontTurn cube = cube {
+f :: Turn
+f cube = cube {
   up    = (up cube) {
 
 
@@ -40,8 +40,8 @@ frontTurn cube = cube {
           }
 }
 
-rightTurn :: Turn
-rightTurn cube = cube {
+r :: Turn
+r cube = cube {
   up    = (up cube) {
                                                         p3 = p3 (front cube),
                                                         p6 = p6 (front cube),
@@ -70,8 +70,8 @@ rightTurn cube = cube {
           }
 }
 
-upTurn :: Turn
-upTurn cube = cube {
+u :: Turn
+u cube = cube {
   up    = (up cube) {
               p1 = p7 (up cube), p2 = p4 (up cube), p3 = p1 (up cube),
               p4 = p8 (up cube), p5 = p5 (up cube), p6 = p2 (up cube),
@@ -100,8 +100,8 @@ upTurn cube = cube {
   down  = down cube
 }
 
-leftTurn :: Turn
-leftTurn cube = cube {
+l :: Turn
+l cube = cube {
   up    = (up cube) {
             p1 = p9 (back cube),
             p4 = p6 (back cube),
@@ -130,8 +130,8 @@ leftTurn cube = cube {
   }
 }
 
-backTurn :: Turn
-backTurn cube = cube {
+b :: Turn
+b cube = cube {
   up    = (up cube) {
             p1 = p3 (right cube), p2 = p6 (right cube), p3 = p9 (right cube)
 
@@ -160,8 +160,8 @@ backTurn cube = cube {
   }
 }
 
-downTurn :: Turn
-downTurn cube = cube {
+d :: Turn
+d cube = cube {
   up    = up cube,
   left  = (left cube) {
 
@@ -191,20 +191,20 @@ downTurn cube = cube {
 }
 
 -- Okay, I've gotten kind of lazy for these...
-frontTurn'  = frontTurn . frontTurn . frontTurn
-rightTurn'  = rightTurn . rightTurn . rightTurn
-upTurn'     = upTurn . upTurn . upTurn
-leftTurn'   = leftTurn . leftTurn . leftTurn
-backTurn'   = backTurn . backTurn . backTurn
-downTurn'   = downTurn . downTurn . downTurn
+f'  = f . f . f
+r'  = r . r . r
+u'     = u . u . u
+l'   = l . l . l
+b'   = b . b . b
+d'   = d . d . d
 
-frontTurn2  = frontTurn . frontTurn
-rightTurn2  = rightTurn . rightTurn
-upTurn2     = upTurn . upTurn
-leftTurn2   = leftTurn . leftTurn
-backTurn2   = backTurn . backTurn
-downTurn2   = downTurn . downTurn
+f2  = f . f
+r2  = r . r
+u2     = u . u
+l2   = l . l
+b2   = b . b
+d2   = d . d
 
 turns :: [Turn]
-turns = [frontTurn, rightTurn, upTurn, leftTurn, backTurn, downTurn, frontTurn', rightTurn', upTurn', leftTurn',
-          backTurn', downTurn', frontTurn2, rightTurn2, upTurn2, leftTurn2, backTurn2, downTurn2]
+turns = [f, r, u, l, b, d, f', r', u', l',
+          b', d', f2, r2, u2, l2, b2, d2]

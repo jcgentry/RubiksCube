@@ -22,7 +22,7 @@ showPatternIO cube patternIO = do
                                 showPattern cube pattern
 
 checkerboard :: Pattern
-checkerboard = Pattern [leftTurn2, rightTurn2, upTurn2, downTurn2, frontTurn2, backTurn2]
+checkerboard = Pattern [l2, r2, u2, d2, f2, b2]
 
 randomPattern :: IO Pattern
 randomPattern = do
