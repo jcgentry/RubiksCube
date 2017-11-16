@@ -8,7 +8,7 @@ square = "*"
 data Color = Red | Orange | Yellow | Green | Blue | White deriving (Eq, Show)
 
 instance Print Color where
-  print color = do
+  dump color = do
                    ANSI.setSGR [ANSI.SetColor ANSI.Foreground ANSI.Vivid (ansiColor color)]
                    ANSI.setSGR [ANSI.SetColor ANSI.Background ANSI.Dull ANSI.Black]
                    putStr square

@@ -15,16 +15,16 @@ data Face = Face {
 } deriving (Show, Eq)
 
 instance Print Face where
-  print f = do
-              print (p1 f)
-              print (p2 f)
-              println (p3 f)
-              print (p4 f)
-              print (p5 f)
-              println (p6 f)
-              print (p9 f)
-              print (p8 f)
-              println (p7 f)
+  dump f = do
+              dump (p1 f)
+              dump (p2 f)
+              dumpln (p3 f)
+              dump (p4 f)
+              dump (p5 f)
+              dumpln (p6 f)
+              dump (p9 f)
+              dump (p8 f)
+              dumpln (p7 f)
 
 row :: Face -> Int -> [Color]
 row face 0 = [p1 face, p2 face, p3 face]

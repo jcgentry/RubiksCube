@@ -2,16 +2,16 @@ module Print where
 
 class (Show a) => Print a where
 
-  print :: a -> IO ()
-  print = putStr . show
+  dump :: a -> IO ()
+  dump = putStr . show
 
-  println :: a -> IO ()
-  println x = do
-                Print.print x
+  dumpln :: a -> IO ()
+  dumpln x = do
+                dump x
                 putStrLn ""
 
 instance Print x => Print [x] where
-  print (c:cs) = do
-                  Print.print c
-                  Print.print cs
-  print [] = return ()
+  dump (c:cs) = do
+                  dump c
+                  dump cs
+  dump [] = return ()

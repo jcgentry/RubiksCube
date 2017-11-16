@@ -22,39 +22,39 @@ data Cube = Cube {
 } deriving (Show, Eq)
 
 instance Print Cube where
-  print (Cube u l f r b d) = do
+  dump (Cube u l f r b d) = do
     emptyRow
-    println $ row u 0
-
-    emptyRow
-    println $ row u 1
+    dumpln $ row u 0
 
     emptyRow
-    println $ row u 2
-
-    print $ row l 0
-    print $ row f 0
-    print $ row r 0
-    println $ row b 0
-
-    print $ row l 1
-    print $ row f 1
-    print $ row r 1
-    println $ row b 1
-
-    print $ row l 2
-    print $ row f 2
-    print $ row r 2
-    println $ row b 2
+    dumpln $ row u 1
 
     emptyRow
-    println $ row d 0
+    dumpln $ row u 2
+
+    dump $ row l 0
+    dump $ row f 0
+    dump $ row r 0
+    dumpln $ row b 0
+
+    dump $ row l 1
+    dump $ row f 1
+    dump $ row r 1
+    dumpln $ row b 1
+
+    dump $ row l 2
+    dump $ row f 2
+    dump $ row r 2
+    dumpln $ row b 2
 
     emptyRow
-    println $ row d 1
+    dumpln $ row d 0
 
     emptyRow
-    println $ row d 2
+    dumpln $ row d 1
+
+    emptyRow
+    dumpln $ row d 2
 
 emptyRow :: IO ()
 emptyRow = putStr "      "
