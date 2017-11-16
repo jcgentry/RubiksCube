@@ -4,6 +4,7 @@ import Cube
 import Print
 import System.Random
 import Debug.Trace
+import Turn
 
 godsNumber = 20
 

@@ -1,6 +1,7 @@
 import Test.Hspec
 import Cube
 import Pattern
+import Turn
 
 main :: IO ()
 main = hspec $ do
