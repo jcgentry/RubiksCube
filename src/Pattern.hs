@@ -10,8 +10,9 @@ godsNumber = 20
 
 newtype Pattern = Pattern [Turn]
 
-apply :: Pattern -> Cube -> Cube
-apply (Pattern turns) cube = foldl (\cube turn -> turn cube) cube turns
+instance Applicable Pattern where
+  (Pattern ts1) +++ (Pattern ts2) = Pattern (ts1 ++ ts2)
+  apply (Pattern turns) cube = foldl (\cube (Turn turn) -> turn cube) cube turns
 
 showPattern :: Cube -> Pattern -> IO ()
 showPattern cube pattern = dump $ apply pattern cube

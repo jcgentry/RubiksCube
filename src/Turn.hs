@@ -1,6 +1,4 @@
-module Turn(Turn, f, r, u, l, b, d,
-                    f', r', u', l', b', d', f2, r2, u2, l2,
-                    b2, d2, turns) where
+module Turn where
 
 import Cube
 
@@ -8,10 +6,19 @@ import Cube
   This is a simplistic representation for now, where each turn type is written out explicitly.
 -}
 
-type Turn = Cube -> Cube
+class Applicable a where
+  (+++) :: a -> a -> a
+  apply :: a -> Cube -> Cube
+
+newtype Turn = Turn (Cube -> Cube)
+
+
+instance Applicable Turn where
+  (Turn t1) +++ (Turn t2) = Turn (t1 . t2)
+  apply (Turn t) = t
 
 f :: Turn
-f cube = cube {
+f = Turn $ \cube -> cube {
   up    = (up cube) {
 
 
@@ -41,7 +48,7 @@ f cube = cube {
 }
 
 r :: Turn
-r cube = cube {
+r = Turn $ \cube -> cube {
   up    = (up cube) {
                                                         p3 = p3 (front cube),
                                                         p6 = p6 (front cube),
@@ -71,7 +78,7 @@ r cube = cube {
 }
 
 u :: Turn
-u cube = cube {
+u = Turn $ \cube -> cube {
   up    = (up cube) {
               p1 = p7 (up cube), p2 = p4 (up cube), p3 = p1 (up cube),
               p4 = p8 (up cube), p5 = p5 (up cube), p6 = p2 (up cube),
@@ -101,7 +108,7 @@ u cube = cube {
 }
 
 l :: Turn
-l cube = cube {
+l = Turn $ \cube -> cube {
   up    = (up cube) {
             p1 = p9 (back cube),
             p4 = p6 (back cube),
@@ -131,7 +138,7 @@ l cube = cube {
 }
 
 b :: Turn
-b cube = cube {
+b = Turn $ \cube -> cube {
   up    = (up cube) {
             p1 = p3 (right cube), p2 = p6 (right cube), p3 = p9 (right cube)
 
@@ -161,7 +168,7 @@ b cube = cube {
 }
 
 d :: Turn
-d cube = cube {
+d = Turn $ \cube -> cube {
   up    = up cube,
   left  = (left cube) {
 
@@ -191,19 +198,19 @@ d cube = cube {
 }
 
 -- Okay, I've gotten kind of lazy for these...
-f'  = f . f . f
-r'  = r . r . r
-u'     = u . u . u
-l'   = l . l . l
-b'   = b . b . b
-d'   = d . d . d
+f'  = f +++ f +++ f
+r'  = r +++ r +++ r
+u'  = u +++ u +++ u
+l'  = l +++ l +++ l
+b'  = b +++ b +++ b
+d'  = d +++ d +++ d
 
-f2  = f . f
-r2  = r . r
-u2     = u . u
-l2   = l . l
-b2   = b . b
-d2   = d . d
+f2  = f +++ f
+r2  = r +++ r
+u2  = u +++ u
+l2  = l +++ l
+b2  = b +++ b
+d2  = d +++ d
 
 turns :: [Turn]
 turns = [f, r, u, l, b, d, f', r', u', l',
