@@ -30,3 +30,7 @@ randomPattern = do
                   count <- getStdRandom (randomR (1, godsNumber))
                   gen <- getStdGen
                   return $ Pattern (map (turns !!) (take count (randomRs (0, ((length turns) - 1)) gen)))
+
+instance Applicable Turn where
+  (Turn _ t1) +++ (Turn _ t2) = Pattern [Turn (t1 . t2)]
+  apply (Turn _ t) = t
