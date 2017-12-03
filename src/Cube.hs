@@ -4,7 +4,7 @@ module Cube(
 import qualified System.Console.ANSI as ANSI
 import Face
 import Color
-import Print
+import Dump
 
 data Cube = Cube {
                   up    :: Face,
@@ -12,7 +12,7 @@ data Cube = Cube {
                   down  :: Face
 } deriving (Show, Eq)
 
-instance Print Cube where
+instance Dump Cube where
   dump (Cube u l f r b d) = do
     emptyRow
     dumpln $ row u 0

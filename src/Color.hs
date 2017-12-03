@@ -1,13 +1,13 @@
 module Color(Color(..), ansiColor) where
 
-import Print
+import Dump
 import qualified System.Console.ANSI as ANSI
 
 square = "*"
 
 data Color = Red | Orange | Yellow | Green | Blue | White deriving (Eq, Show)
 
-instance Print Color where
+instance Dump Color where
   dump color = do
                    ANSI.setSGR [ANSI.SetColor ANSI.Foreground ANSI.Vivid (ansiColor color)]
                    ANSI.setSGR [ANSI.SetColor ANSI.Background ANSI.Dull ANSI.Black]

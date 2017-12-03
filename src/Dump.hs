@@ -1,4 +1,4 @@
-module Print where
+module Dump where
 
 class (Show a) => Dump a where
 

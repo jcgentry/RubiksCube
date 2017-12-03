@@ -2,7 +2,7 @@ module Face where
 
 import Color
 import Prelude
-import Print
+import Dump
 
 {--
   There *is* more-standard notation for the positions on the face, but I find `p1`, `p2`, `p3`, _etc._
@@ -14,7 +14,7 @@ data Face = Face {
   p7 :: Color, p8 :: Color, p9 :: Color
 } deriving (Show, Eq)
 
-instance Print Face where
+instance Dump Face where
   dump f = do
               dump (p1 f)
               dump (p2 f)

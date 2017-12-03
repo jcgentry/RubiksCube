@@ -1,7 +1,7 @@
 module Pattern (Pattern (Pattern), checkerboard, combine, randomPattern) where
 
 import Cube
-import Print
+import Dump
 import System.Random
 import Debug.Trace
 import Turn
