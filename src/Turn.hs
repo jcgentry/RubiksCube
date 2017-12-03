@@ -1,4 +1,5 @@
-module Turn (Turn(), u, l, f, r, b, d, u', l', f', r', b', d', u2, l2, f2, r2, b2, d2, applyTurn, randomTurn) where
+module Turn (Turn(), u, l, f, r, b, d, u', l', f', r', b', d', u2, l2, f2, r2, b2, d2,
+              applyTurn, applyAndShowTurn, randomTurn) where
 
 import Cube
 import Control.Monad.Random
@@ -176,12 +177,13 @@ applyTurn (Turn _ rs) cube = foldl (\c r -> r c) cube rs
 instance Dump Turn where
   dump (Turn label _) = putStr label
 
-{-applyAndShowTurn :: Turn -> Cube -> IO Cube
+applyAndShowTurn :: Turn -> Cube -> IO Cube
 applyAndShowTurn turn cube = do
-                                dump turn
-                                result <- applyAndShowTurn
+                                dumpln turn
+                                let result = applyTurn turn cube
                                 dump result
--}
+                                return result
+
 
 randomTurn :: (RandomGen g) => Rand g Turn
 randomTurn = fmap (turns !!) (getRandomR (1, length turns))
