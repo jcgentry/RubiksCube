@@ -1,7 +1,7 @@
 module Face where
 
 import Color
-import Prelude hiding (print)
+import Prelude
 import Print
 
 {--

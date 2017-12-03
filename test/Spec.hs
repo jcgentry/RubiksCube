@@ -2,6 +2,7 @@ import Test.Hspec
 import Cube
 import Pattern
 import Turn
+import Applicable (apply)
 
 main :: IO ()
 main = hspec $ do
@@ -78,10 +79,10 @@ main = hspec $ do
       solved (apply f startingCube) `shouldBe` False
 
     it "4 front turns solves it" $
-      solved (apply (f +++ f +++ f +++ f) startingCube) `shouldBe` True
+      solved (apply (Pattern [f, f, f, f]) startingCube) `shouldBe` True
 
     it "two front turns" $
-      apply (f +++ f) startingCube `shouldBe`
+      apply (Pattern [f, f]) startingCube `shouldBe`
         Cube {
           front = Face
                     Green Green Green
@@ -145,7 +146,7 @@ main = hspec $ do
         }
 
     it "4 right turns solves it" $
-      solved (apply (r +++ r +++ r +++ r) startingCube) `shouldBe` True
+      solved (apply (Pattern [r, r, r, r]) startingCube) `shouldBe` True
 
     it "up turn" $
       apply u startingCube `shouldBe`
@@ -183,7 +184,7 @@ main = hspec $ do
         }
 
     it "4 up turns solves it" $
-      solved (apply (u +++ u +++ u +++ u) startingCube) `shouldBe` True
+      solved (apply (Pattern [u, u, u, u]) startingCube) `shouldBe` True
 
     it "left turn" $
       apply l startingCube `shouldBe`
@@ -221,7 +222,7 @@ main = hspec $ do
         }
 
     it "4 left turns solves it" $
-      solved (apply (l +++ l +++ l +++ l) startingCube) `shouldBe` True
+      solved (apply (Pattern [l, l, l, l]) startingCube) `shouldBe` True
 
     it "back turn" $
       apply b startingCube `shouldBe`
@@ -259,7 +260,7 @@ main = hspec $ do
         }
 
     it "4 back turns solves it" $
-      solved (apply (b +++ b +++ b +++ b) startingCube) `shouldBe` True
+      solved (apply (Pattern [b, b, b, b]) startingCube) `shouldBe` True
 
     it "down turn" $
       apply d startingCube `shouldBe`
@@ -297,11 +298,11 @@ main = hspec $ do
         }
 
     it "4 down turns solves it" $
-      solved (apply (d +++ d +++ d +++ d) startingCube) `shouldBe` True
+      solved (apply (Pattern [d, d, d, d]) startingCube) `shouldBe` True
 
   describe "patterns" $
     it "checkerboard" $
-      apply (checkerboard +++ checkerboard) startingCube `shouldBe` startingCube
+      apply (combine checkerboard checkerboard) startingCube `shouldBe` startingCube
 
 
 
