@@ -1,18 +1,23 @@
-module Pattern where
+module Pattern (Pattern(), +++) where
 
 import Cube
 import Print
 import System.Random
 import Debug.Trace
 import Turn
+import Applicable
+import Control.Monad.Random
+
 
 godsNumber = 20
 
 newtype Pattern = Pattern [Turn]
 
 instance Applicable Pattern where
-  (Pattern ts1) +++ (Pattern ts2) = Pattern (ts1 ++ ts2)
-  apply (Pattern turns) cube = foldl (\cube (Turn turn) -> turn cube) cube turns
+  apply (Pattern turns) cube = foldl (\cube turn -> apply turn cube) cube turns
+
+
+(+++) :: Turn ->
 
 showPattern :: Cube -> Pattern -> IO ()
 showPattern cube pattern = dump $ apply pattern cube
@@ -25,12 +30,13 @@ showPatternIO cube patternIO = do
 checkerboard :: Pattern
 checkerboard = Pattern [l2, r2, u2, d2, f2, b2]
 
-randomPattern :: IO Pattern
+randomPattern :: (RandomGen g) => Rand g Pattern
+randomPattern = fmap Pattern $ sequence (replicate godsNumber randomTurn)
+
+
+{-
 randomPattern = do
                   count <- getStdRandom (randomR (1, godsNumber))
                   gen <- getStdGen
                   return $ Pattern (map (turns !!) (take count (randomRs (0, ((length turns) - 1)) gen)))
-
-instance Applicable Turn where
-  (Turn _ t1) +++ (Turn _ t2) = Pattern [Turn (t1 . t2)]
-  apply (Turn _ t) = t
+-}
