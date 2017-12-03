@@ -1,6 +1,6 @@
 module Print where
 
-class (Show a) => Print a where
+class (Show a) => Dump a where
 
   dump :: a -> IO ()
   dump = putStr . show
@@ -10,7 +10,7 @@ class (Show a) => Print a where
                 dump x
                 putStrLn ""
 
-instance Print x => Print [x] where
+instance Dump x => Dump [x] where
   dump (c:cs) = do
                   dump c
                   dump cs
