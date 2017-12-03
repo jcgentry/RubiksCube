@@ -1,7 +1,6 @@
-module Turn (Turn(), u, l, f, r, b, d, u', l', f', r', b', d', u2, l2, f2, r2, b2, d2, randomTurn) where
+module Turn (Turn(), u, l, f, r, b, d, u', l', f', r', b', d', u2, l2, f2, r2, b2, d2, applyTurn, randomTurn) where
 
 import Cube
-import Applicable
 import Control.Monad.Random
 
 type Rotation = (Cube -> Cube)
@@ -170,8 +169,7 @@ turns :: [Turn]
 turns = [f, r, u, l, b, d, f', r', u', l',
           b', d', f2, r2, u2, l2, b2, d2]
 
-instance Applicable Turn where
-  apply (Turn _ rs) cube = foldl (\c r -> r c) cube rs
+applyTurn (Turn _ rs) cube = foldl (\c r -> r c) cube rs
 
 randomTurn :: (RandomGen g) => Rand g Turn
 randomTurn = fmap (turns !!) (getRandomR (1, length turns))

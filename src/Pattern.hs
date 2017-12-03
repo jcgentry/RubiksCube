@@ -1,11 +1,10 @@
-module Pattern (Pattern (Pattern), checkerboard, combine, randomPattern) where
+module Pattern (Pattern (Pattern), checkerboard, combine, applyPattern, randomPattern) where
 
 import Cube
 import Dump
 import System.Random
 import Debug.Trace
 import Turn
-import Applicable
 import Control.Monad.Random
 
 
@@ -13,11 +12,10 @@ godsNumber = 20
 
 newtype Pattern = Pattern [Turn]
 
-instance Applicable Pattern where
-  apply (Pattern turns) cube = foldl (\cube turn -> apply turn cube) cube turns
+applyPattern (Pattern turns) cube = foldl (\cube turn -> applyTurn turn cube) cube turns
 
 showPattern :: Cube -> Pattern -> IO ()
-showPattern cube pattern = dump $ apply pattern cube
+showPattern cube pattern = dump $ applyPattern pattern cube
 
 showPatternIO :: Cube -> IO Pattern -> IO ()
 showPatternIO cube patternIO = do
