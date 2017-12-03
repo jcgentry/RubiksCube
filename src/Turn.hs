@@ -2,6 +2,7 @@ module Turn (Turn(), u, l, f, r, b, d, u', l', f', r', b', d', u2, l2, f2, r2, b
 
 import Cube
 import Control.Monad.Random
+import Dump
 
 type Rotation = (Cube -> Cube)
 
@@ -169,7 +170,19 @@ turns :: [Turn]
 turns = [f, r, u, l, b, d, f', r', u', l',
           b', d', f2, r2, u2, l2, b2, d2]
 
+applyTurn :: Turn -> Cube -> Cube
 applyTurn (Turn _ rs) cube = foldl (\c r -> r c) cube rs
+
+instance Dump Turn where
+  dump (Turn label _) = putStr label
+
+{-applyAndShowTurn :: Turn -> Cube -> IO Cube
+applyAndShowTurn turn cube = do
+                                dump turn
+                                result <- applyAndShowTurn
+                                dump result
+-}
 
 randomTurn :: (RandomGen g) => Rand g Turn
 randomTurn = fmap (turns !!) (getRandomR (1, length turns))
+

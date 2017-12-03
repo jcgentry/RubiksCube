@@ -1,9 +1,8 @@
 module Dump where
 
-class (Show a) => Dump a where
+class Dump a where
 
   dump :: a -> IO ()
-  dump = putStr . show
 
   dumpln :: a -> IO ()
   dumpln x = do
