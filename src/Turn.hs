@@ -184,7 +184,9 @@ applyAndShowTurn turn cube = do
                                 dump result
                                 return result
 
+randomTurn :: MonadRandom m => m Turn
 
-randomTurn :: (RandomGen g) => Rand g Turn
+
+--randomTurn :: (RandomGen g) => Rand g Turn
 randomTurn = fmap (turns !!) (getRandomR (1, length turns))
 
