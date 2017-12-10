@@ -1,9 +1,9 @@
 module Turn (Turn(), u, l, f, r, b, d, u', l', f', r', b', d', u2, l2, f2, r2, b2, d2,
-              applyTurn, applyAndShowTurn, randomTurn) where
+              applyTurn, randomTurn) where
 
 import Cube
 import Control.Monad.Random
-import Dump
+import Pretty
 
 type Rotation = (Cube -> Cube)
 
@@ -174,15 +174,8 @@ turns = [f, r, u, l, b, d, f', r', u', l',
 applyTurn :: Turn -> Cube -> Cube
 applyTurn (Turn _ rs) cube = foldl (\c r -> r c) cube rs
 
-instance Dump Turn where
-  dump (Turn label _) = putStr label
-
-applyAndShowTurn :: Turn -> Cube -> IO Cube
-applyAndShowTurn turn cube = do
-                                dumpln turn
-                                let result = applyTurn turn cube
-                                dump result
-                                return result
+instance Printable Turn where
+  pretty (Turn label _) = [Text label]
 
 randomTurn :: MonadRandom m => m Turn
 

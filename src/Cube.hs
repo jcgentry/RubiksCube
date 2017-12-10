@@ -1,10 +1,9 @@
 module Cube(
   Cube(..), Color(..), Face(..), startingCube, solved) where
 
-import qualified System.Console.ANSI as ANSI
 import Face
 import Color
-import Dump
+import Pretty
 
 data Cube = Cube {
                   up    :: Face,
@@ -12,43 +11,54 @@ data Cube = Cube {
                   down  :: Face
 } deriving (Show, Eq)
 
-instance Dump Cube where
-  dump (Cube u l f r b d) = do
-    emptyRow
-    dumpln $ row u 0
+instance Printable Cube where
+  pretty (Cube u l f r b d) =
+      emptyRow ++
+      map ChangeColor (row u 0) ++
+      newLine ++
 
-    emptyRow
-    dumpln $ row u 1
+      emptyRow ++
+      map ChangeColor (row u 1) ++
+      newLine ++
 
-    emptyRow
-    dumpln $ row u 2
+      emptyRow ++
+      map ChangeColor (row u 2) ++
+      newLine ++
 
-    dump $ row l 0
-    dump $ row f 0
-    dump $ row r 0
-    dumpln $ row b 0
+      map ChangeColor (row l 0) ++
+      map ChangeColor (row f 0) ++
+      map ChangeColor (row r 0) ++
+      map ChangeColor (row b 0) ++
+      newLine ++
 
-    dump $ row l 1
-    dump $ row f 1
-    dump $ row r 1
-    dumpln $ row b 1
+      map ChangeColor (row l 1) ++
+      map ChangeColor (row f 1) ++
+      map ChangeColor (row r 1) ++
+      map ChangeColor (row b 1) ++
+      newLine ++
 
-    dump $ row l 2
-    dump $ row f 2
-    dump $ row r 2
-    dumpln $ row b 2
+      map ChangeColor (row l 2) ++
+      map ChangeColor (row f 2) ++
+      map ChangeColor (row r 2) ++
+      map ChangeColor (row b 2) ++
+      newLine ++
 
-    emptyRow
-    dumpln $ row d 0
+      emptyRow ++
+      map ChangeColor (row d 0) ++
+      newLine ++
 
-    emptyRow
-    dumpln $ row d 1
+      emptyRow ++
+      map ChangeColor (row d 1) ++
+      newLine ++
 
-    emptyRow
-    dumpln $ row d 2
+      emptyRow ++
+      map ChangeColor (row d 2)
 
-emptyRow :: IO ()
-emptyRow = putStr "      "
+
+emptyRow :: [PrettyElement]
+emptyRow = [Text "      "]
+
+newLine = [NewLine]
 
 {--
   "Western" color scheme as described here: https://ruwix.com/the-rubiks-cube/japanese-western-color-schemes/.
