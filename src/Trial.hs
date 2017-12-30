@@ -1,4 +1,4 @@
-module Trial(Trial(..), doTrial) where
+module Trial(Trial(..), doTrial, showTrial) where
 
 import Cube
 import Pattern
@@ -20,6 +20,10 @@ data Trial = Trial {
 
   endingCube :: Cube
 }
+
+instance Show Trial where
+  show (Trial _ turns attemptedPattern repeated isSolved _ _) =
+    "turns = " ++ (show turns) ++ ", isSolved = " ++ (show isSolved)
 
 initTrial start pattern repeated limit = Trial {
   start = start,
@@ -74,3 +78,9 @@ trial cube (t:ts) limit currentTrial =
               turns = (turns currentTrial) ++ [t],
               endingCube = cube'
             }
+
+showTrial :: Cube -> Pattern -> Bool -> IO Trial
+showTrial cube pattern repeat =
+  let result = doTrial cube pattern repeat defaultLimit
+    in do
+        return result
