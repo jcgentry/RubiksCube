@@ -1,7 +1,10 @@
 import Test.Hspec
 import Cube
 import Pattern
+import Patterns
+import Trial
 import Turn
+
 
 main :: IO ()
 main = hspec $ do
@@ -302,6 +305,100 @@ main = hspec $ do
   describe "patterns" $
     it "checkerboard" $
       applyPattern (combine checkerboard checkerboard) startingCube `shouldBe` startingCube
+
+  describe "trials" $ do
+    it "trial solved cube empty pattern" $
+      let (Trial start turns attemptedPattern repeated isSolved endingCube) = doTrial startingCube (Pattern []) False
+        in
+          do
+            start `shouldBe` startingCube
+            turns `shouldBe` []
+            attemptedPattern `shouldBe` Pattern []
+            repeated `shouldBe` False
+            isSolved `shouldBe` True
+            endingCube `shouldBe` startingCube
+    it "trial solved cube non-empty pattern" $
+      let (Trial start turns attemptedPattern repeated isSolved endingCube) = doTrial startingCube (Pattern [U]) False in (
+        do
+          start `shouldBe` startingCube
+          turns `shouldBe` []
+          attemptedPattern `shouldBe` Pattern [U]
+          repeated `shouldBe` False
+          isSolved `shouldBe` True
+          endingCube `shouldBe` startingCube)
+
+    it "trial not solved cube empty pattern" $
+      let
+        init = applyPattern (Pattern [U]) startingCube
+        (Trial start turns attemptedPattern repeated isSolved endingCube) =
+            doTrial init (Pattern []) False in
+        do
+          start `shouldBe` init
+          turns `shouldBe` []
+          attemptedPattern `shouldBe` Pattern []
+          repeated `shouldBe` False
+          isSolved `shouldBe` False
+          endingCube `shouldBe` init
+
+    it "checkerboard should solve checkerboard" $
+      let init = applyPattern checkerboard startingCube
+          (Pattern moves) = checkerboard
+          (Trial start turns attemptedPattern repeated isSolved endingCube) = doTrial init checkerboard False in
+        do
+          start `shouldBe` init
+          turns `shouldBe` moves
+          attemptedPattern `shouldBe` Pattern moves
+          repeated `shouldBe` False
+          isSolved `shouldBe` True
+          endingCube `shouldBe` startingCube
+
+    it "right turn repeated pattern" $
+      let init = applyPattern (Pattern [R]) startingCube
+          (Trial start turns attemptedPattern repeated isSolved endingCube) = doTrial init (Pattern [R]) True in
+        do
+          start `shouldBe` init
+          turns `shouldBe` [R, R, R]
+          attemptedPattern `shouldBe` Pattern [R]
+          repeated `shouldBe` True
+          isSolved `shouldBe` True
+          endingCube `shouldBe` startingCube
+
+    it "simple failure" $
+      let init = applyPattern (Pattern [F]) startingCube
+          (Trial start turns attemptedPattern repeated isSolved endingCube) = doTrial init (Pattern [F]) False in
+        do
+          start `shouldBe` init
+          turns `shouldBe` [F]
+          attemptedPattern `shouldBe` Pattern [F]
+          repeated `shouldBe` False
+          isSolved `shouldBe` False
+          endingCube `shouldBe` Cube {
+                                          front = Face
+                                                    Green Green Green
+                                                    Green Green Green
+                                                    Green Green Green,
+                                          left = Face
+                                                    Orange Orange Red
+                                                    Orange Orange Red
+                                                    Orange Orange Red,
+                                          up = Face
+                                                    White   White   White
+                                                    White   White   White
+                                                    Yellow  Yellow  Yellow,
+                                          down = Face
+                                                    White   White   White
+                                                    Yellow  Yellow  Yellow
+                                                    Yellow  Yellow  Yellow,
+                                          right = Face
+                                                    Orange Red Red
+                                                    Orange Red Red
+                                                    Orange Red Red,
+                                          back = Face
+                                                    Blue Blue Blue
+                                                    Blue Blue Blue
+                                                    Blue Blue Blue
+                                        }
+
 
 
 

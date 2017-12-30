@@ -131,7 +131,7 @@ downRotation cube =
       }
   }
 
-data Turn = F | R | U | L | B | D | F' | R' | U' | L' | B' | D' | F2 | R2 | U2 | L2 | B2 | D2 deriving (Show, Enum, Bounded)
+data Turn = F | R | U | L | B | D | F' | R' | U' | L' | B' | D' | F2 | R2 | U2 | L2 | B2 | D2 deriving (Show, Eq, Enum, Bounded)
 
 rotations :: Turn -> [Rotation]
 rotations F = [frontRotation]
