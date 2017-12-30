@@ -1,4 +1,4 @@
-module Pattern (Pattern (Pattern), checkerboard, combine, applyPattern) where
+module Pattern (Pattern (Pattern), checkerboard, combine, applyPattern, randomPattern) where
 
 import Cube
 import Pretty
@@ -25,3 +25,9 @@ instance Printable Pattern where
 
 checkerboard :: Pattern
 checkerboard = Pattern [L2, R2, U2, D2, F2, B2]
+
+randomPattern :: IO Pattern
+randomPattern = do
+                  g <- newStdGen
+                  let ts = randoms g :: [Turn]
+                  return (Pattern (take godsNumber ts))
