@@ -4,7 +4,7 @@ import Cube
 import Pattern
 import Turn
 
-defaultLimit = 5000
+defaultLimit = 20000
 
 data Trial = Trial {
   start :: Cube,
@@ -23,7 +23,7 @@ data Trial = Trial {
 
 instance Show Trial where
   show (Trial _ turns attemptedPattern repeated isSolved _ _) =
-    "turns = " ++ (show turns) ++ ", isSolved = " ++ (show isSolved)
+    "turn count = " ++ show (length turns) ++ ", attemptedPattern = " ++ (show attemptedPattern) ++ ", isSolved = " ++ (show isSolved)
 
 initTrial start pattern repeated limit = Trial {
   start = start,
