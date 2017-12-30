@@ -131,27 +131,7 @@ downRotation cube =
       }
   }
 
-data Turn = F | R | U | L | B | D | F' | R' | U' | L' | B' | D' | F2 | R2 | U2 | L2 | B2 | D2 deriving (Enum, Bounded)
-
-instance Show Turn where
-  show F = "f"
-  show R = "r"
-  show U = "u"
-  show L = "l"
-  show B = "b"
-  show D = "d"
-  show F' = "f'"
-  show R' = "r'"
-  show U' = "u'"
-  show L' = "l'"
-  show B' = "b'"
-  show D' = "d'"
-  show F2 = "f2"
-  show R2 = "r2"
-  show U2 = "u2"
-  show L2 = "l2"
-  show B2 = "b2"
-  show D2 = "d2"
+data Turn = F | R | U | L | B | D | F' | R' | U' | L' | B' | D' | F2 | R2 | U2 | L2 | B2 | D2 deriving (Show, Enum, Bounded)
 
 rotations :: Turn -> [Rotation]
 rotations F = [frontRotation]

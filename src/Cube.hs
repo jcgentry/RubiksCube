@@ -69,10 +69,10 @@ instance Printable Cube where
 
 
 emptyRow :: [PrettyElement]
-emptyRow = [Spaces 3]
+emptyRow = [Spaces 6]
 
 printRow :: [Color] -> [PrettyElement]
-printRow = map (`ColorText` "*")
+printRow = map (`ColorText` "* ")
 
 
 newLine :: [PrettyElement]
