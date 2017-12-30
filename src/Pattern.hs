@@ -1,4 +1,4 @@
-module Pattern (Pattern (Pattern), checkerboard, combine, applyPattern, randomPattern) where
+module Pattern (Pattern (Pattern), checkerboard, combine, applyPattern, randomPattern, cubeWithRandomPattern) where
 
 import Cube
 import Pretty
@@ -14,6 +14,7 @@ godsNumber = 20
 
 newtype Pattern = Pattern [Turn] deriving Show
 
+applyPattern :: Pattern -> Cube -> Cube
 applyPattern (Pattern turns) cube = foldl (flip applyTurn) cube turns
 
 combine :: Pattern -> Pattern -> Pattern
@@ -27,3 +28,11 @@ randomPattern = do
                   g <- newStdGen
                   let ts = randoms g :: [Turn]
                   return (Pattern (take godsNumber ts))
+
+cubeWithRandomPattern :: IO Cube
+cubeWithRandomPattern = do
+  p <- randomPattern
+  let cube = applyPattern p startingCube
+  print p
+  prettyPrint cube
+  return cube
