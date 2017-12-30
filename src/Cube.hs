@@ -13,51 +13,69 @@ data Cube = Cube {
 
 instance Printable Cube where
   pretty (Cube u l f r b d) =
+      newLine ++
       emptyRow ++
-      map ChangeColor (row u 0) ++
-      newLine ++
-
+      printRow (row u 0) ++
       emptyRow ++
-      map ChangeColor (row u 1) ++
-      newLine ++
-
       emptyRow ++
-      map ChangeColor (row u 2) ++
-      newLine ++
-
-      map ChangeColor (row l 0) ++
-      map ChangeColor (row f 0) ++
-      map ChangeColor (row r 0) ++
-      map ChangeColor (row b 0) ++
-      newLine ++
-
-      map ChangeColor (row l 1) ++
-      map ChangeColor (row f 1) ++
-      map ChangeColor (row r 1) ++
-      map ChangeColor (row b 1) ++
-      newLine ++
-
-      map ChangeColor (row l 2) ++
-      map ChangeColor (row f 2) ++
-      map ChangeColor (row r 2) ++
-      map ChangeColor (row b 2) ++
       newLine ++
 
       emptyRow ++
-      map ChangeColor (row d 0) ++
+      printRow(row u 1) ++
+      emptyRow ++
+      emptyRow ++
       newLine ++
 
       emptyRow ++
-      map ChangeColor (row d 1) ++
+      printRow(row u 2) ++
+      emptyRow ++
+      emptyRow ++
+      newLine ++
+
+      printRow(row l 0) ++
+      printRow(row f 0) ++
+      printRow(row r 0) ++
+      printRow(row b 0) ++
+      newLine ++
+
+      printRow(row l 1) ++
+      printRow(row f 1) ++
+      printRow(row r 1) ++
+      printRow(row b 1) ++
+      newLine ++
+
+      printRow(row l 2) ++
+      printRow(row f 2) ++
+      printRow(row r 2) ++
+      printRow(row b 2) ++
       newLine ++
 
       emptyRow ++
-      map ChangeColor (row d 2)
+      printRow(row d 0) ++
+      emptyRow ++
+      emptyRow ++
+      newLine ++
+
+      emptyRow ++
+      printRow(row d 1) ++
+      emptyRow ++
+      emptyRow ++
+      newLine ++
+
+      emptyRow ++
+      printRow (row d 2) ++
+      emptyRow ++
+      emptyRow
 
 
 emptyRow :: [PrettyElement]
-emptyRow = [Text "      "]
+emptyRow = [Spaces 3]
 
+printRow :: [Color] -> [PrettyElement]
+printRow = map (`ColorText` "*")
+
+
+newLine :: [PrettyElement]
 newLine = [NewLine]
 
 {--

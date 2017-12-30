@@ -1,23 +1,31 @@
-module Pretty(Printable, PrettyElement(..), pretty) where
+module Pretty(Printable, PrettyElement(..), pretty, prettyPrint) where
 
 import Color
 
 import qualified System.Console.ANSI as ANSI
 
-data PrettyElement = ChangeColor Color | Text String | NewLine
+data PrettyElement = ColorText Color String | Spaces Int | Text String | NewLine
 
 class Printable x where
   pretty :: x -> [PrettyElement]
 
 printElement :: PrettyElement -> IO ()
-printElement (ChangeColor c) = do
+printElement (ColorText c s) = do
                                 ANSI.setSGR [ANSI.SetColor ANSI.Foreground ANSI.Vivid (ansiColor c)]
                                 ANSI.setSGR [ANSI.SetColor ANSI.Background ANSI.Dull ANSI.Black]
-printElement (Text s) = putStr s
+                                putStr s
+printElement (Text s) = do
+                                ANSI.setSGR [ANSI.Reset]
+                                putStr s
+printElement (Spaces x) = do
+                                ANSI.setSGR [ANSI.SetColor ANSI.Background ANSI.Dull ANSI.Black]
+                                putStr $ replicate x ' '
 printElement NewLine = printLineReturn
 
 printLineReturn :: IO ()
-printLineReturn = print ""
+printLineReturn = do
+                      ANSI.setSGR [ANSI.Reset]
+                      putStrLn ""
 
 printElements :: [PrettyElement] -> IO ()
 printElements [] = do
@@ -26,7 +34,6 @@ printElements [] = do
 printElements (e:es) = do
                         printElement e
                         printElements es
-
 
 
 ansiColor :: Color -> ANSI.Color

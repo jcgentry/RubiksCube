@@ -178,8 +178,5 @@ instance Printable Turn where
   pretty (Turn label _) = [Text label]
 
 randomTurn :: MonadRandom m => m Turn
-
-
---randomTurn :: (RandomGen g) => Rand g Turn
 randomTurn = fmap (turns !!) (getRandomR (1, length turns))
 
