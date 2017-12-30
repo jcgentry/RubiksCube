@@ -308,7 +308,7 @@ main = hspec $ do
 
   describe "trials" $ do
     it "trial solved cube empty pattern" $
-      let (Trial start turns attemptedPattern repeated isSolved endingCube) = doTrial startingCube (Pattern []) False
+      let (Trial start turns attemptedPattern repeated isSolved limit endingCube) = doTrial startingCube (Pattern []) False 500
         in
           do
             start `shouldBe` startingCube
@@ -316,22 +316,24 @@ main = hspec $ do
             attemptedPattern `shouldBe` Pattern []
             repeated `shouldBe` False
             isSolved `shouldBe` True
+            limit `shouldBe` 500
             endingCube `shouldBe` startingCube
     it "trial solved cube non-empty pattern" $
-      let (Trial start turns attemptedPattern repeated isSolved endingCube) = doTrial startingCube (Pattern [U]) False in (
+      let (Trial start turns attemptedPattern repeated isSolved limit endingCube) = doTrial startingCube (Pattern [U]) False 500 in (
         do
           start `shouldBe` startingCube
           turns `shouldBe` []
           attemptedPattern `shouldBe` Pattern [U]
           repeated `shouldBe` False
           isSolved `shouldBe` True
+          limit `shouldBe` 500
           endingCube `shouldBe` startingCube)
 
     it "trial not solved cube empty pattern" $
       let
         init = applyPattern (Pattern [U]) startingCube
-        (Trial start turns attemptedPattern repeated isSolved endingCube) =
-            doTrial init (Pattern []) False in
+        (Trial start turns attemptedPattern repeated isSolved limit endingCube) =
+            doTrial init (Pattern []) False 500 in
         do
           start `shouldBe` init
           turns `shouldBe` []
@@ -343,35 +345,38 @@ main = hspec $ do
     it "checkerboard should solve checkerboard" $
       let init = applyPattern checkerboard startingCube
           (Pattern moves) = checkerboard
-          (Trial start turns attemptedPattern repeated isSolved endingCube) = doTrial init checkerboard False in
+          (Trial start turns attemptedPattern repeated isSolved limit endingCube) = doTrial init checkerboard False 500 in
         do
           start `shouldBe` init
           turns `shouldBe` moves
           attemptedPattern `shouldBe` Pattern moves
           repeated `shouldBe` False
           isSolved `shouldBe` True
+          limit `shouldBe` 500
           endingCube `shouldBe` startingCube
 
     it "right turn repeated pattern" $
       let init = applyPattern (Pattern [R]) startingCube
-          (Trial start turns attemptedPattern repeated isSolved endingCube) = doTrial init (Pattern [R]) True in
+          (Trial start turns attemptedPattern repeated isSolved limit endingCube) = doTrial init (Pattern [R]) True 500 in
         do
           start `shouldBe` init
           turns `shouldBe` [R, R, R]
           attemptedPattern `shouldBe` Pattern [R]
           repeated `shouldBe` True
           isSolved `shouldBe` True
+          limit `shouldBe` 500
           endingCube `shouldBe` startingCube
 
     it "simple failure" $
       let init = applyPattern (Pattern [F]) startingCube
-          (Trial start turns attemptedPattern repeated isSolved endingCube) = doTrial init (Pattern [F]) False in
+          (Trial start turns attemptedPattern repeated isSolved limit endingCube) = doTrial init (Pattern [F]) False 500 in
         do
           start `shouldBe` init
           turns `shouldBe` [F]
           attemptedPattern `shouldBe` Pattern [F]
           repeated `shouldBe` False
           isSolved `shouldBe` False
+          limit `shouldBe` 500
           endingCube `shouldBe` Cube {
                                           front = Face
                                                     Green Green Green
@@ -399,7 +404,24 @@ main = hspec $ do
                                                     Blue Blue Blue
                                         }
 
+    it "exceed limit" $
+      let init = applyPattern (Pattern [F]) startingCube
+          (Trial start turns attemptedPattern repeated isSolved limit endingCube) = doTrial init (Pattern [F, F', F']) False 2 in
+        do
+          start `shouldBe` init
+          turns `shouldBe` [F, F']
+          attemptedPattern `shouldBe` Pattern [F, F', F']
+          repeated `shouldBe` False
+          isSolved `shouldBe` False
+          limit `shouldBe` 2
 
-
-
-
+    it "hit limit" $
+      let init = applyPattern (Pattern [F]) startingCube
+          (Trial start turns attemptedPattern repeated isSolved limit endingCube) = doTrial init (Pattern [F, F', F']) False 3 in
+        do
+          start `shouldBe` init
+          turns `shouldBe` [F, F', F']
+          attemptedPattern `shouldBe` Pattern [F, F', F']
+          repeated `shouldBe` False
+          isSolved `shouldBe` True
+          limit `shouldBe` 3

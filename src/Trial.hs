@@ -4,7 +4,7 @@ import Cube
 import Pattern
 import Turn
 
-limit = 5000
+defaultLimit = 5000
 
 data Trial = Trial {
   start :: Cube,
@@ -16,20 +16,23 @@ data Trial = Trial {
 
   isSolved :: Bool,
 
+  limit :: Int,
+
   endingCube :: Cube
 }
 
-initTrial start pattern repeated = Trial {
+initTrial start pattern repeated limit = Trial {
   start = start,
   turns = [],
   attemptedPattern = pattern,
   repeated = repeated,
   isSolved = False,
+  limit = limit,
   endingCube = start
 }
 
-doTrial :: Cube -> Pattern -> Bool -> Trial
-doTrial start pattern@(Pattern turns) repeat
+doTrial :: Cube -> Pattern -> Bool -> Int -> Trial
+doTrial start pattern@(Pattern turns) repeat limit
   | solved start =
       Trial {
         start = start,
@@ -37,20 +40,25 @@ doTrial start pattern@(Pattern turns) repeat
         attemptedPattern = pattern,
         repeated = repeat,
         isSolved = True,
+        limit = limit,
         endingCube = start
       }
-  | repeat = trial start (cycle turns) (initTrial start pattern True)
-  | otherwise = trial start turns (initTrial start pattern False)
+  | repeat = trial start (cycle turns) limit (initTrial start pattern True limit)
+  | otherwise = trial start turns limit (initTrial start pattern False limit)
 
 
-trial :: Cube -> [Turn] -> Trial -> Trial
+trial :: Cube -> [Turn] -> Int -> Trial -> Trial
 
-trial cube [] trial = trial {
+trial cube [] _ trial = trial {
   isSolved = False,
   endingCube = cube
 }
 
-trial cube (t:ts) currentTrial =
+trial _ _ 0 trial = trial {
+  isSolved = False
+}
+
+trial cube (t:ts) limit currentTrial =
   let cube' = applyTurn t cube in
     if (solved cube')
       then currentTrial {
@@ -61,6 +69,7 @@ trial cube (t:ts) currentTrial =
      else trial
             cube'
             ts
+            (limit - 1)
             currentTrial {
               turns = (turns currentTrial) ++ [t],
               endingCube = cube'
