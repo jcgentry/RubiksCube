@@ -1,4 +1,4 @@
-module Pattern (Pattern (Pattern), checkerboard, combine, applyPattern, randomPattern) where
+module Pattern (Pattern (Pattern), checkerboard, combine, applyPattern) where
 
 import Cube
 import Pretty
@@ -20,11 +20,8 @@ combine :: Pattern -> Pattern -> Pattern
 combine (Pattern t1s) (Pattern t2s) = Pattern (t1s ++ t2s)
 
 instance Printable Pattern where
-  pretty (Pattern turns) = (Text " ") `intersperse` (turns >>= pretty)
+  pretty (Pattern turns) = Text " " `intersperse` (turns >>= pretty)
 
 
 checkerboard :: Pattern
-checkerboard = Pattern [l2, r2, u2, d2, f2, b2]
-
-randomPattern :: (RandomGen g) => Rand g Pattern
-randomPattern = fmap Pattern $ sequence (replicate godsNumber randomTurn)
+checkerboard = Pattern [L2, R2, U2, D2, F2, B2]

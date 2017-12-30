@@ -46,7 +46,7 @@ main = hspec $ do
 
   describe "turns" $ do
     it "front turn" $
-      applyTurn f startingCube `shouldBe`
+      applyTurn F startingCube `shouldBe`
         Cube {
           front = Face
                     Green Green Green
@@ -75,13 +75,13 @@ main = hspec $ do
         }
 
     it "not solved if turned" $
-      solved (applyTurn f startingCube) `shouldBe` False
+      solved (applyTurn F startingCube) `shouldBe` False
 
     it "4 front turns solves it" $
-      solved (applyPattern (Pattern [f, f, f, f]) startingCube) `shouldBe` True
+      solved (applyPattern (Pattern [F, F, F, F]) startingCube) `shouldBe` True
 
     it "two front turns" $
-      applyPattern (Pattern [f, f]) startingCube `shouldBe`
+      applyPattern (Pattern [F, F]) startingCube `shouldBe`
         Cube {
           front = Face
                     Green Green Green
@@ -110,7 +110,7 @@ main = hspec $ do
         }
 
     it "right turn" $
-      applyTurn r startingCube `shouldBe`
+      applyTurn R startingCube `shouldBe`
         Cube {
           front =
             Face
@@ -145,10 +145,10 @@ main = hspec $ do
         }
 
     it "4 right turns solves it" $
-      solved (applyPattern (Pattern [r, r, r, r]) startingCube) `shouldBe` True
+      solved (applyPattern (Pattern [R, R, R, R]) startingCube) `shouldBe` True
 
     it "up turn" $
-      applyTurn u startingCube `shouldBe`
+      applyTurn U startingCube `shouldBe`
         Cube {
           front =
             Face
@@ -183,10 +183,10 @@ main = hspec $ do
         }
 
     it "4 up turns solves it" $
-      solved (applyPattern (Pattern [u, u, u, u]) startingCube) `shouldBe` True
+      solved (applyPattern (Pattern [U, U, U, U]) startingCube) `shouldBe` True
 
     it "left turn" $
-      applyTurn l startingCube `shouldBe`
+      applyTurn L startingCube `shouldBe`
         Cube {
           front =
             Face
@@ -221,10 +221,10 @@ main = hspec $ do
         }
 
     it "4 left turns solves it" $
-      solved (applyPattern (Pattern [l, l, l, l]) startingCube) `shouldBe` True
+      solved (applyPattern (Pattern [L, L, L, L]) startingCube) `shouldBe` True
 
     it "back turn" $
-      applyTurn b startingCube `shouldBe`
+      applyTurn B startingCube `shouldBe`
         Cube {
           front =
             Face
@@ -259,10 +259,10 @@ main = hspec $ do
         }
 
     it "4 back turns solves it" $
-      solved (applyPattern (Pattern [b, b, b, b]) startingCube) `shouldBe` True
+      solved (applyPattern (Pattern [B, B, B, B]) startingCube) `shouldBe` True
 
     it "down turn" $
-      applyTurn d startingCube `shouldBe`
+      applyTurn D startingCube `shouldBe`
         Cube {
           front =
             Face
@@ -297,7 +297,7 @@ main = hspec $ do
         }
 
     it "4 down turns solves it" $
-      solved (applyPattern (Pattern [d, d, d, d]) startingCube) `shouldBe` True
+      solved (applyPattern (Pattern [D, D, D, D]) startingCube) `shouldBe` True
 
   describe "patterns" $
     it "checkerboard" $

@@ -1,5 +1,4 @@
-module Turn (Turn(), u, l, f, r, b, d, u', l', f', r', b', d', u2, l2, f2, r2, b2, d2,
-              applyTurn, randomTurn) where
+module Turn (Turn(..), applyTurn) where
 
 import Cube
 import Control.Monad.Random
@@ -132,51 +131,57 @@ downRotation cube =
       }
   }
 
-data Turn = Turn String [Rotation]
+data Turn = F | R | U | L | B | D | F' | R' | U' | L' | B' | D' | F2 | R2 | U2 | L2 | B2 | D2 deriving (Enum, Bounded)
 
-f :: Turn
-f = Turn "f" [frontRotation]
+instance Show Turn where
+  show F = "f"
+  show R = "r"
+  show U = "u"
+  show L = "l"
+  show B = "b"
+  show D = "d"
+  show F' = "f'"
+  show R' = "r'"
+  show U' = "u'"
+  show L' = "l'"
+  show B' = "b'"
+  show D' = "d'"
+  show F2 = "f2"
+  show R2 = "r2"
+  show U2 = "u2"
+  show L2 = "l2"
+  show B2 = "b2"
+  show D2 = "d2"
 
-r :: Turn
-r = Turn "r" [rightRotation]
+rotations :: Turn -> [Rotation]
+rotations F = [frontRotation]
+rotations R = [rightRotation]
+rotations U = [upRotation]
+rotations L = [leftRotation]
+rotations B = [backRotation]
+rotations D = [downRotation]
+rotations F' = [frontRotation, frontRotation, frontRotation]
+rotations R' = [rightRotation, rightRotation, rightRotation]
+rotations U' = [upRotation, upRotation, upRotation]
+rotations L' = [leftRotation, leftRotation, leftRotation]
+rotations B' = [backRotation, backRotation, backRotation]
+rotations D' = [downRotation, downRotation, downRotation]
+rotations F2 = [frontRotation, frontRotation]
+rotations R2 = [rightRotation, rightRotation]
+rotations U2 = [upRotation, upRotation]
+rotations L2 = [leftRotation, leftRotation]
+rotations B2 = [backRotation, backRotation]
+rotations D2 = [downRotation, downRotation]
 
-u :: Turn
-u = Turn "r" [upRotation]
-
-l :: Turn
-l = Turn "l" [leftRotation]
-
-b :: Turn
-b = Turn "b" [backRotation]
-
-d :: Turn
-d = Turn "d" [downRotation]
-
--- Okay, I've gotten kind of lazy for these...
-f'  = Turn "f'" [frontRotation, frontRotation, frontRotation]
-r'  = Turn "r'" [rightRotation, rightRotation, rightRotation]
-u'  = Turn "u'" [upRotation, upRotation, upRotation]
-l'  = Turn "l'" [leftRotation, leftRotation, leftRotation]
-b'  = Turn "b'" [backRotation, backRotation, backRotation]
-d'  = Turn "d'" [downRotation, downRotation, downRotation]
-
-f2  = Turn "f2" [frontRotation, frontRotation]
-r2  = Turn "r2" [rightRotation, rightRotation]
-u2  = Turn "u2" [upRotation, upRotation]
-l2  = Turn "l2" [leftRotation, leftRotation]
-b2  = Turn "b2" [backRotation, backRotation]
-d2  = Turn "d2" [downRotation, downRotation]
-
-turns :: [Turn]
-turns = [f, r, u, l, b, d, f', r', u', l',
-          b', d', f2, r2, u2, l2, b2, d2]
 
 applyTurn :: Turn -> Cube -> Cube
-applyTurn (Turn _ rs) cube = foldl (\c r -> r c) cube rs
+applyTurn t cube = foldl (\c r -> r c) cube (rotations t)
 
 instance Printable Turn where
-  pretty (Turn label _) = [Text label]
+  pretty t = [Text (show t)]
 
-randomTurn :: MonadRandom m => m Turn
-randomTurn = fmap (turns !!) (getRandomR (1, length turns))
-
+instance Random Turn where
+  randomR (a, b) g =
+    case randomR (fromEnum a, fromEnum b) g of
+      (x, g') -> (toEnum x, g')
+  random = randomR (minBound, maxBound)
